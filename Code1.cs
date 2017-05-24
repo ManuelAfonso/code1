@@ -186,6 +186,7 @@ namespace Code1
         }
         public override void AtualizarPontuacao(Pontuacao pontu)
         {
+            // aqui não tem que fazer nada
         }
     }
     /// <summary>
@@ -373,15 +374,14 @@ namespace Code1
 
         static void Main(string[] args)
         {
-            Console.Clear();
-            Console.CursorVisible = false;
-            //
             MatrizJogo mat = new MatrizJogo();
             Comando comm = new Comando();
             Pontuacao pontu = new Pontuacao()
             {
                 TempoRestante = TEMPO_INICIAL
             };
+            //
+            escreveBaseEcra();
             atualizaEcra(mat, comm, pontu);
             //
             do
@@ -405,8 +405,25 @@ namespace Code1
             while (pontu.TerminarJogo() == false);
             //
             Console.SetCursorPosition(0, 23); // por causa do press any key to continue...
+            Console.ReadKey();
         }
 
+        static void escreveBaseEcra()
+        {
+            Console.Clear();
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(8, 2);
+            Console.Write(new String('-', 50));
+            for (int i = 3; i < 14; i++)
+            {
+                Console.SetCursorPosition(8, i);
+                Console.Write(":");
+                Console.SetCursorPosition(57, i);
+                Console.Write(":");
+            }
+            Console.SetCursorPosition(8, 14);
+            Console.Write(new String('-', 50));
+        }
         static void atualizaEcra(MatrizJogo mj, Comando c, Pontuacao p)
         {
             if (mj.TemAlteracoes())
@@ -426,7 +443,7 @@ namespace Code1
             {
                 int linha = 10;
                 Console.SetCursorPosition(10, linha);
-                Console.Write("Posição atual:                                                         ");
+                Console.Write("Posição atual: {0}", new String('_', 31));
                 Console.SetCursorPosition(25 + (c.PosicaoAtual * 4), 10);
                 Console.Write("#{0}#", c.PosicaoAtual + 1);
                 c.ResetTemAlteracoes();
